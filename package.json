@@ -1,0 +1,16 @@
+{
+  "name": "nasa_pod",
+  "version": "1.0.0",
+  "description": "",
+  "main": "keys.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Matthew Vogee",
+  "license": "ISC",
+  "dependencies": {
+    "debug": "^2.6.9",
+    "express": "^4.17.1"
+  }
+}
