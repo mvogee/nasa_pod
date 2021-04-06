@@ -35,7 +35,7 @@ function donwloadImg(url) { // could make this function only run once a day and 
     }).end();
 }
 
-app.get("/", (req, res) => {
+app.get("/", (req, res) => { // this is never called because we have public set as the static response
     var data = "";
     console.log("A get request is made!");
     const url = "https://api.nasa.gov/planetary/apod?api_key=" + keys.apiKeys.nasa;
@@ -55,6 +55,28 @@ app.get("/", (req, res) => {
     res.sendFile(__dirname + "/public/index.html");
    // console.log(keys.apiKeys.nasa); // this gets the api key from my keys.js file
     // get data from nasa api
+});
+
+app.get("/nasa", (req, res) => {
+    // console.log("get request recieved");
+    // res.send("hi i respond");
+    const url = "https://api.nasa.gov/planetary/apod?api_key=" + keys.apiKeys.nasa;
+    let data = ""; // does our get request have access to let variable?
+    //let jsonData = "";
+    https.get(url, (response => {
+        response.on("data", (chunk) => {
+            data += chunk;
+        });
+        response.on("end", () => {
+            const jsonData = JSON.parse(data);
+            console.log(jsonData);
+            res.send(jsonData);
+        }).on("error", (error) => {
+            console.log(error);
+        });
+    }));
+    console.log("Getting nasa data");
+    
 });
 
 app.listen(port, ()=> {

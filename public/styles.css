@@ -1,10 +1,29 @@
 body {
+    font-family:Arial, Helvetica, sans-serif;
     height: 100vh;
     background-image: url("./images/loading.gif");
     background-size: auto;
     background-repeat: no-repeat;
     background-position: center;
     text-align: center;
-    color: black;
+    color: white;
     /* !dinamic text color depending on the colors of the image? */
+}
+
+.copyright-container {
+    text-align: left;
+    font-size: .5em;
+}
+
+.header-container {
+    background-color: hsla(0, 0%, 0%, 0.5);
+    padding: .2em 2em;
+}
+
+.explanation-container {
+    background-color: hsla(0, 0%, 0%, 0.5);
+    padding: 1em 10em;
+    position: absolute;
+    bottom: 1em;
+    line-height: 1.2;
 }
