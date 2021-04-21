@@ -1,24 +1,26 @@
-//TODO: figure out how to get the image to display on the html page after it is downloaded
-//TODO: figure out how to get the title and explanation from the server to the page
-//TODO: figure out when you should download the image. can we avoid having to download it on every request to the server? like donwload it once a day and store it in public where the client can access it as soon as the content is sent?
-
-
 const express = require("express");
 const app = express();
 const keys = require("./keys.js");// local file containing api key object
 const https = require("https");
 const fs = require("fs");
 const Stream = require("stream").Transform;
-//const { response } = require("express");
 
 const port = 3000;
-app.use(express.static("./public")); // this is the static available folder
-//! send the public folder with the basic html and css and javascript
-//! the javascirpt will make the get request to here for the nasa content
-//! at that point you can set the page contnet based on the content grabbed from the server
-//!
-// takes the url of the image and downloads the image to the public folder on the server.
-function donwloadImg(url) { // could make this function only run once a day and update the image??
+app.use(express.static("./public"));
+
+// const jsonMockData = {
+//     date: '2021-04-20',
+//     explanation: "What's the best way to explore Mars? Perhaps there is no single best way, but a newly demonstrated method shows tremendous promise: flight. Powered flight has the promise to search vast regions and scout out particularly interesting areas for more detailed investigation.  Yesterday, for the first time, powered flight was demonstrated on Mars by a small helicopter named Ingenuity.  In the featured video, Ingenuity is first imaged by the Perseverance rover sitting quietly on the Martian surface.  After a few seconds, Ingenuity's long rotors begin to spin, and a few seconds after that -- history is made as Ingenuity actually takes off, hovers for a few seconds, and then lands safely.  More tests of Ingenuity's unprecedented ability are planned over the next few months.  Flight may help humanity better explore not only Mars, but Saturn's moon Titan over the next few decades.",
+//     media_type: 'video',
+//     service_version: 'v1',
+//     title: 'Ingenuity: First Flight over Mars',
+//     url: 'https://www.youtube.com/embed/wMnOo2zcjXA?rel=0'
+//   }
+  
+
+// takes the url of the image and downloads the image to the public folder on the server
+//! not used. loading image on page from url
+function donwloadImg(url) {
     https.request(url, (res) => {
         var data = new Stream();
         res.on("data", (chunk) => {
@@ -53,16 +55,11 @@ app.get("/", (req, res) => { // this is never called because we have public set 
         console.log(error);
     });
     res.sendFile(__dirname + "/public/index.html");
-   // console.log(keys.apiKeys.nasa); // this gets the api key from my keys.js file
-    // get data from nasa api
 });
 
 app.get("/nasa", (req, res) => {
-    // console.log("get request recieved");
-    // res.send("hi i respond");
     const url = "https://api.nasa.gov/planetary/apod?api_key=" + keys.apiKeys.nasa;
-    let data = ""; // does our get request have access to let variable?
-    //let jsonData = "";
+    let data = "";
     https.get(url, (response => {
         response.on("data", (chunk) => {
             data += chunk;
@@ -70,7 +67,7 @@ app.get("/nasa", (req, res) => {
         response.on("end", () => {
             const jsonData = JSON.parse(data);
             console.log(jsonData);
-            res.send(jsonData);
+            res.send(jsonData); // instert jsonMockData to test video
         }).on("error", (error) => {
             console.log(error);
         });
