@@ -19,7 +19,7 @@ fetch(url)
             let video = document.querySelector("iframe");
             video.classList.toggle("videoBackgroundOn");
             video.classList.toggle("videoBackgroundOff");
-            video.setAttribute("src", data.url + "&autoplay=1&controls=0&showinfo=0&autohide=0&fs=0&loop=1&playlist");
+            video.setAttribute("src", data.url + "&autoplay=1&controls=0&showinfo=0&autohide=0&fs=0&loop=1&mute=1");
         }
         else {
             body.setAttribute("style", "background-image: url(\"" + data.hdurl + "\");");
